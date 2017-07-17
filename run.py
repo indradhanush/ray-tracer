@@ -1,6 +1,6 @@
 import sys
 
-from tracer.intersection import ImagePlane
+from tracer.imager import ImagePlane
 
 if __name__ == '__main__':
     width = 250 + 1

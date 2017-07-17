@@ -11,6 +11,12 @@ class Point():
         self.z = z
 
 
+class Ray():
+    def __init__(self, start, direction):
+        self.start = start
+        self.direction = direction
+
+
 class ImagePlane():
     def __init__(self, width, height):
         self.width = width
@@ -67,9 +73,3 @@ class ImagePlane():
         image = Image.fromarray(self.plane)
         with open(filename, 'w') as f:
             image.save(f)
-
-
-class Ray():
-    def __init__(self, start, direction):
-        self.start = start
-        self.direction = direction
