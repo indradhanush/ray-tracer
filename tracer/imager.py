@@ -21,10 +21,10 @@ class ImagePlane():
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.plane = np.arange(
-            width * height,
-            dtype=np.uint8
-        ).reshape(width, height)
+        self.plane = np.zeros(
+            (height, width, 3),
+            dtype=np.float32
+        )
 
     def create_scene(self):
         # Point where the camera is placed at
@@ -43,9 +43,9 @@ class ImagePlane():
 
         result = sphere.trace(ray)
         if result is True:
-            color = 255
+            color = (255, 255, 255)
         elif result is False:
-            color = 0
+            color = (0, 0, 0)
 
         self.plane[row][col] = color
 
@@ -55,21 +55,22 @@ class ImagePlane():
 
         lowest_x = x
 
-        for row, col in np.ndindex(self.plane.shape):
-            self.render_pixel(
-                row,
-                col,
-                Point(x, y, self.distance),
-                self.sphere1
-            )
+        for row in range(self.width):
+            for col in range(self.height):
+                self.render_pixel(
+                    row,
+                    col,
+                    Point(x, y, self.distance),
+                    self.sphere1
+                )
 
-            if (col + 1) % self.width == 0:
-                x = lowest_x
-                y -= 1
-            else:
-                x += 1
+                if (col + 1) % self.width == 0:
+                    x = lowest_x
+                    y -= 1
+                else:
+                    x += 1
 
     def save(self, filename):
-        image = Image.fromarray(self.plane)
+        image = Image.fromarray(self.plane.astype(np.uint8), 'RGB')
         with open(filename, 'w') as f:
             image.save(f)
