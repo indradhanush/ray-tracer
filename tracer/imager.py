@@ -10,11 +10,23 @@ class Point():
         self.y = y
         self.z = z
 
+    @property
+    def coordinates(self):
+        return np.array([self.x, self.y, self.z])
+
+    @property
+    def vector(self):
+        return np.array([self.x, self.y, self.z])
+
 
 class Ray():
     def __init__(self, start, direction):
         self.start = start
         self.direction = direction
+
+    @property
+    def vector(self):
+        return np.subtract(self.direction.coordinates, self.start.coordinates)
 
 
 class ImagePlane():
@@ -41,12 +53,7 @@ class ImagePlane():
     def render_pixel(self, row, col, pixel, sphere):
         ray = Ray(self.origin, pixel)
 
-        result = sphere.trace(ray)
-        if result is True:
-            color = (255, 255, 255)
-        elif result is False:
-            color = (0, 0, 0)
-
+        color = sphere.trace(ray)
         self.plane[row][col] = color
 
     def render_image(self):

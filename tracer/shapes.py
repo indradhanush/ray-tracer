@@ -7,9 +7,10 @@ class Shape():
 
 
 class Sphere(Shape):
-    def __init__(self, centre, radius):
+    def __init__(self, centre, radius, scene):
         self.centre = centre
         self.radius = radius
+        self.scene = scene
 
     @staticmethod
     def is_valid_root(root):
@@ -20,6 +21,11 @@ class Sphere(Shape):
             return False
 
         return True
+
+    @classmethod
+    def get_valid_root(cls, roots):
+        valid_roots = [root for root in roots if cls.is_valid_root(root)]
+        return min(valid_roots) if valid_roots else None
 
     def trace(self, ray):
         px = ray.direction.x
@@ -37,7 +43,28 @@ class Sphere(Shape):
         c = (qx ** 2) + (qy ** 2) + (qz ** 2) - (self.radius ** 2)
 
         roots = np.roots([c, b, a])
-        if any(self.is_valid_root(root) for root in roots) is True:
-            return True
-        else:
-            return False
+
+        root = self.get_valid_root(roots)
+        if root is None:
+            return (0, 0, 0)
+
+        intersection_vector = np.add(
+            self.scene.origin.vector,
+            np.multiply(root, ray.vector)
+        )
+
+        radius_vector = np.subtract(intersection_vector, self.centre.vector)
+
+        magnitude = np.sqrt(np.dot(radius_vector, radius_vector))
+
+        surface_normal = np.array([
+            float(abs(i)) / magnitude for i in radius_vector
+        ])
+
+        color = np.multiply(255, surface_normal)
+
+        # Ensure that all colors are between black and white
+        if not all(i >= 0 and i <= 255 for i in color):
+            raise Exception
+
+        return color
