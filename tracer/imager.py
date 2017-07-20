@@ -46,8 +46,9 @@ class ImagePlane():
         self.distance = -50
 
         self.sphere1 = Sphere(
-            centre=Point(0, 0, -250),
-            radius=200
+            centre=Point(0, 0, -50),
+            radius=35,
+            scene=self
         )
 
     def render_pixel(self, row, col, pixel, sphere):

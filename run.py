@@ -3,8 +3,8 @@ import sys
 from tracer.imager import ImagePlane
 
 if __name__ == '__main__':
-    width = 250 + 1
-    height = 250 + 1
+    width = 100 + 1
+    height = 100 + 1
 
     screen = ImagePlane(width, height)
     screen.create_scene()
