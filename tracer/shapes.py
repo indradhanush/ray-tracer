@@ -55,13 +55,14 @@ class Sphere(Shape):
 
         radius_vector = np.subtract(intersection_vector, self.centre.vector)
 
-        magnitude = np.sqrt(np.dot(radius_vector, radius_vector))
+        magnitude = np.linalg.norm(radius_vector)
 
-        surface_normal = np.array([
-            float(abs(i)) / magnitude for i in radius_vector
-        ])
+        surface_normal = np.true_divide(radius_vector, magnitude)
 
-        color = np.multiply(255, surface_normal)
+        vectorized_remap = np.vectorize(lambda x: (x+1)/2)
+        surface_normal = vectorized_remap(surface_normal)
+
+        color = np.abs(np.multiply(255, surface_normal))
 
         # Ensure that all colors are between black and white
         if not all(i >= 0 and i <= 255 for i in color):
