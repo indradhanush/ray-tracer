@@ -3,10 +3,11 @@ import sys
 from tracer.imager import ImagePlane
 
 if __name__ == '__main__':
-    width = 100 + 1
-    height = 100 + 1
+    dim = int(sys.argv[1])
+    width = dim
+    height = dim
 
     screen = ImagePlane(width, height)
     screen.create_scene()
     screen.render_image()
-    screen.save(sys.argv[1])
+    screen.save('image' + sys.argv[1] + '.jpg')

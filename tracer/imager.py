@@ -46,8 +46,8 @@ class ImagePlane():
         self.distance = -50
 
         self.sphere1 = Sphere(
-            centre=Point(0, 0, -50),
-            radius=35,
+            centre=Point(0, 0, -(0.82 * self.width)),
+            radius=0.8 * self.width,
             scene=self
         )
 
@@ -79,6 +79,4 @@ class ImagePlane():
                     x += 1
 
     def save(self, filename):
-        image = Image.fromarray(self.plane.astype(np.uint8), 'RGB')
-        with open(filename, 'w') as f:
-            image.save(f)
+        scipy.misc.imsave(filename, self.plane)
