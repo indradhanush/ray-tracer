@@ -1,5 +1,5 @@
 import numpy as np
-from PIL import Image
+from scipy.misc import imsave
 
 from tracer.shapes import Sphere
 
@@ -79,4 +79,4 @@ class ImagePlane():
                     x += 1
 
     def save(self, filename):
-        scipy.misc.imsave(filename, self.plane)
+        imsave(filename, self.plane)
